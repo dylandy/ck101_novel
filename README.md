@@ -12,3 +12,4 @@ rake build_all_cache
 
 
 ## License
+This project is released under MIT License. For further information, please check the LICENSE file.
