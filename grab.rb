@@ -19,17 +19,19 @@ class NovelGrab
     page_amount = first_page.css(".pg .last").first.text.split(" ").last.to_i
     first_page_contents = first_page.xpath("//div[starts-with(@id, 'post_')]")[1..-1].css(".t_f")
     first_page_contents.each do |i|
-      content = i.text.split("<br>")
-      i.text.split("<br>").shift
-      output << {"chapter_title" => i.text.split("<br>").first, "chapter_content" => content.join("<br>")}
+      content = i.inner_html.split("<br>")
+      i.inner_html.split("<br>").shift
+      output << {"chapter_title" => (Nokogiri::XML i.inner_html.split("<br>").first).text == "" ? i.inner_html.split("<br>").first.split(" ").join(" ") : (Nokogiri::XML i.inner_html.split("<br>").first).text ,
+                 "chapter_content" => content.join("<br>")}
     end
     (2..page_amount).each do |i|
       base[-2] = i
       temp = Nokogiri::HTML(open(base.join("-")))
       temp.xpath("//div[starts-with(@id, 'post_')]")[1..-1].css(".t_f").each do |j|
-        content = j.text.split("<br>")
-        j.text.split("<br>").shift
-        output << {"chapter_title"=> j.text.split("<br>").first, "chapter_content" => content.join("<br>")}
+        content = j.inner_html.split("<br>")
+        j.inner_html.split("<br>").shift
+        output << {"chapter_title"=> (Nokogiri::XML j.inner_html.split("<br>").first).text == "" ? j.inner_html.split("<br>").first.split(" ").join(" ") : (Nokogiri::XML j.inner_html.split("<br>").first).text ,
+                   "chapter_content" => content.join("<br>")}
       end
     end
     output

@@ -1,4 +1,4 @@
 cache/*
-.swp
+*.swp
 .rake_t_cache
 temp.json
