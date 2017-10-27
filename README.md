@@ -26,7 +26,7 @@ rake -T
 
 ## TODO
 
-[] curtain chapter selector
+- [ ] curtain chapter selector
 
 ## License
 This project is released under MIT License. For further information, please check the LICENSE file.
