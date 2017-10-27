@@ -21,7 +21,9 @@ class NovelGrab
     first_page_contents.each do |i|
       content = i.inner_html.split("<br>")
       i.inner_html.split("<br>").shift
-      output << {"chapter_title" => (Nokogiri::XML i.inner_html.split("<br>").first).text == "" ? i.inner_html.split("<br>").first.split(" ").join(" ") : (Nokogiri::XML i.inner_html.split("<br>").first).text ,
+      chapter_title_preprocess = (Nokogiri::XML i.inner_html.split("<br>").first.gsub("\r\n","").strip.gsub("　","")).text == "" ? 
+      i.inner_html.split("<br>").first.gsub("\r\n","").strip.gsub("　","") : (Nokogiri::XML i.inner_html.split("<br>").first.gsub("\r\n","").strip.gsub("　","")).text
+      output << {"chapter_title" => chapter_title_preprocess ,
                  "chapter_content" => content.join("<br>")}
     end
     (2..page_amount).each do |i|
@@ -30,7 +32,9 @@ class NovelGrab
       temp.xpath("//div[starts-with(@id, 'post_')]")[1..-1].css(".t_f").each do |j|
         content = j.inner_html.split("<br>")
         j.inner_html.split("<br>").shift
-        output << {"chapter_title"=> (Nokogiri::XML j.inner_html.split("<br>").first).text == "" ? j.inner_html.split("<br>").first.split(" ").join(" ") : (Nokogiri::XML j.inner_html.split("<br>").first).text ,
+        chapter_title_preprocess = (Nokogiri::XML j.inner_html.split("<br>").first.gsub("\r\n","").strip.gsub("　","")).text == "" ?
+        j.inner_html.split("<br>").first.gsub("\r\n","").strip.gsub("　","") :(Nokogiri::XML j.inner_html.split("<br>").first.gsub("\r\n","").strip.gsub("　","")).text
+        output << {"chapter_title"=> chapter_title_preprocess,
                    "chapter_content" => content.join("<br>")}
       end
     end
