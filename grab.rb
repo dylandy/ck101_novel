@@ -29,7 +29,7 @@ class NovelGrab
     (2..page_amount).each do |i|
       base[-2] = i
       temp = Nokogiri::HTML(open(base.join("-")))
-      temp.xpath("//div[starts-with(@id, 'post_')]")[1..-1].css(".t_f").each do |j|
+      temp.xpath("//div[starts-with(@id, 'post_')]").css(".t_f").each do |j|
         content = j.inner_html.split("<br>")
         j.inner_html.split("<br>").shift
         chapter_title_preprocess = (Nokogiri::XML j.inner_html.split("<br>").first.gsub("\r\n","").strip.gsub("　","")).text == "" ?
